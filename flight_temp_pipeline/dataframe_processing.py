@@ -25,17 +25,15 @@ def plot_line_graph(df_passed_in, time_string):
 
     # Adjust the legend position and layout
     ax.legend(loc='upper left', bbox_to_anchor=(1.01, 1), borderaxespad=0)
-
-    plt.tight_layout()  # ensures all plot elements fit within the figure area
-
+    plt.tight_layout()
     plot_file_name = f'uploads/{time_string}/temp_change_line_graph.pdf'
 
     plt.savefig(plot_file_name)
 
 
 def greater_than_5_change(dataframe):
-    # calc temp change
     temperature_columns = [col for col in dataframe.columns if 'temperature' in col]
+
     for column in temperature_columns:
         dataframe[f'Change_in_temp: {column}'] = dataframe[column].diff()
 
@@ -46,6 +44,7 @@ def greater_than_5_change(dataframe):
 
     for column in temperature_columns:
         condition = dataframe[f'Change_in_temp: {column}'].abs() > temp_threshold
+
         if condition.any():
             temp_changes[column] = dataframe[condition][['missionTime', f'Change_in_temp: {column}']]
 

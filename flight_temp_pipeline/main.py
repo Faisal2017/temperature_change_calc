@@ -37,19 +37,8 @@ def api_add_results():
     return jsonify(insert_result(result))
 
 
-# @app.route('/api/results/update',  methods = ['PUT'])
-# def api_update_user():
-#     result = request.get_json()
-#     return jsonify(update_result(user))
-#
-# @app.route('/api/users/delete/<user_id>',  methods = ['DELETE'])
-# def api_delete_user(user_id):
-#     return jsonify(delete_user(user_id))
-
 @app.route('/csv_file_upload', methods=['POST'])
 def upload_csv():
-    print('request : ', request.files)
-
     if 'file' not in request.files:
         return jsonify({"error": "No file part in the request"}), 400
 
