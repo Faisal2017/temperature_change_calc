@@ -1,6 +1,5 @@
 import pandas as pd
-from unittest.mock import patch
-import pytest
+
 from flight_temp_pipeline.dataframe_processing import clean_and_handle_missing_data, greater_than_5_change, process_dataframe
 
 
