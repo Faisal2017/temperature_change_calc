@@ -40,10 +40,7 @@ def upload_csv():
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
 
-        # Here you could add processing logic, e.g., reading the file with pandas
         df = pd.read_csv(file_path)
-        # Process data as required
-        # print(df.head())  # Example process: print the first few lines
 
         read_csv_and_process(df)
 
