@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import sqlite3
+import json
 
 
 def connect_to_db():
@@ -11,7 +12,7 @@ def create_db_table():
     try:
         conn = connect_to_db()
         conn.execute('''
-            CREATE TABLE results (
+            CREATE TABLE IF NOT EXISTS results (
                 result_id INTEGER PRIMARY KEY NOT NULL,
                 time_submitted TEXT NOT NULL
             );

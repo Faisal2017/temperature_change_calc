@@ -16,7 +16,7 @@ print(UPLOAD_DIRECTORY)
 os.makedirs(UPLOAD_DIRECTORY, exist_ok=True)
 
 
-def plot_line_graph(df_passed_in):
+def plot_line_graph(df_passed_in, time_string):
     # Set the 'missionTime' column as the index
     df_passed_in.set_index('missionTime', inplace=True)
 
@@ -40,13 +40,13 @@ def plot_line_graph(df_passed_in):
 
     print(cwd2)
 
-    time_string = time.strftime("%Y%m%d-%H%M%S")
-    plot_file_name = f'uploads/{time_string}_line_graph.pdf'
+    # time_string = time.strftime("%Y%m%d-%H%M%S")
+    plot_file_name = f'uploads/{time_string}/temp_change_line_graph.pdf'
 
     plt.savefig(plot_file_name)
 
 
-def read_csv_and_process(df):
+def read_csv_and_process(df, time_string):
     df.interpolate(inplace=True)
 
     # first duplicate occurrences are dropped, can change to 'last' if required
@@ -56,7 +56,8 @@ def read_csv_and_process(df):
     df = df.dropna()
 
     df_to_plot = df.drop(df.columns[0], axis=1)
-    plot_line_graph(df_to_plot)
+
+    plot_line_graph(df_to_plot, time_string)
 
     # calc temp change
     temperature_columns = [col for col in df.columns if 'temperature' in col]
@@ -76,7 +77,7 @@ def read_csv_and_process(df):
     for sensor_name, df in temp_changes.items():
         safe_name = sensor_name.replace('.', '_').replace(' ', '_')
 
-        file_name = f"uploads/{safe_name}.csv"
+        file_name = f"uploads/{time_string}/{safe_name}.csv"
 
         df.to_csv(file_name, index=False)
 
