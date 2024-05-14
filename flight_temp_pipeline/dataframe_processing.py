@@ -6,18 +6,16 @@ import pandas as pd
 import seaborn as sns
 import scipy
 import matplotlib.pyplot as plt
-import json
-import csv
 
 
-UPLOAD_DIRECTORY = os.getenv('UPLOAD_DIRECTORY', 'uploads/')
+UPLOAD_DIRECTORY = os.getenv('UPLOAD_DIRECTORY', '../uploads/')
 print(UPLOAD_DIRECTORY)
 
 os.makedirs(UPLOAD_DIRECTORY, exist_ok=True)
 
 
 def plot_line_graph(df_passed_in, time_string):
-    # Set the 'missionTime' column as the index
+    # set the 'missionTime' column as the index
     df_passed_in.set_index('missionTime', inplace=True)
 
     # Plot the data
@@ -30,17 +28,8 @@ def plot_line_graph(df_passed_in, time_string):
     # Adjust the legend position and layout
     ax.legend(loc='upper left', bbox_to_anchor=(1.01, 1), borderaxespad=0)
 
-    plt.tight_layout()  # Ensures all plot elements fit within the figure area
-    # plt.show()
+    plt.tight_layout()  # ensures all plot elements fit within the figure area
 
-    cwd = os.getcwd()
-
-    cwd2 = os.path.join(cwd, "uploads/")
-    # os.makedirs(cwd + '/uploads')
-
-    print(cwd2)
-
-    # time_string = time.strftime("%Y%m%d-%H%M%S")
     plot_file_name = f'uploads/{time_string}/temp_change_line_graph.pdf'
 
     plt.savefig(plot_file_name)
@@ -65,7 +54,7 @@ def greater_than_5_change(dataframe):
     return temp_changes
 
 
-def read_csv_and_process(df, time_string):
+def process_dataframe(df, time_string):
     df.interpolate(inplace=True)
 
     # first duplicate occurrences are dropped, can change to 'last' if required

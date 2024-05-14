@@ -1,13 +1,11 @@
 # TODO - refactor vars to config file?
 
-# from flight_temp_pipeline/dataframe_processing import read_csv_and_process
 import os
 import time
 import json
 
-from dataframe_processing import read_csv_and_process
-
-from sql_commands import create_db_table, get_results, get_result_by_id, insert_result
+from flight_temp_pipeline.dataframe_processing import process_dataframe
+from flight_temp_pipeline.sql_commands import create_db_table, get_result_by_id, insert_result
 
 import pandas as pd
 from werkzeug.utils import secure_filename
@@ -71,7 +69,7 @@ def upload_csv():
         df = pd.read_csv(file_path)
 
         # time string used to create folder structure
-        read_csv_and_process(df, time_string)
+        process_dataframe(df, time_string)
 
         # submit to sqlite
         try:

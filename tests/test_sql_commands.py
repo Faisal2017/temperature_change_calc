@@ -1,9 +1,9 @@
 import pytest
 import sqlite3
 import os
-from sql_commands import (
+from flight_temp_pipeline.sql_commands import (
     connect_to_db, create_db_table, insert_result,
-    get_results, get_result_by_id, DATABASE_NAME
+    get_results, get_result_by_id
 )
 
 
