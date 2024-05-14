@@ -1,6 +1,4 @@
 import os
-import time
-
 
 import pandas as pd
 import seaborn as sns
@@ -54,7 +52,7 @@ def greater_than_5_change(dataframe):
     return temp_changes
 
 
-def process_dataframe(df, time_string):
+def clean_and_handle_missing_data(df):
     df.interpolate(inplace=True)
 
     # first duplicate occurrences are dropped, can change to 'last' if required
@@ -62,6 +60,12 @@ def process_dataframe(df, time_string):
 
     # drop any nulls still left and not providing any useful info
     df = df.dropna()
+
+    return df
+
+
+def process_dataframe(df, time_string):
+    df = clean_and_handle_missing_data(df)
 
     df_to_plot = df.drop(df.columns[0], axis=1)
 
