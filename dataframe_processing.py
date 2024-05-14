@@ -46,6 +46,25 @@ def plot_line_graph(df_passed_in, time_string):
     plt.savefig(plot_file_name)
 
 
+def greater_than_5_change(dataframe):
+    # calc temp change
+    temperature_columns = [col for col in dataframe.columns if 'temperature' in col]
+    for column in temperature_columns:
+        dataframe[f'Change_in_temp: {column}'] = dataframe[column].diff()
+
+    # threshold for the rate of change
+    temp_threshold = 5
+
+    temp_changes = {}
+
+    for column in temperature_columns:
+        condition = dataframe[f'Change_in_temp: {column}'].abs() > temp_threshold
+        if condition.any():
+            temp_changes[column] = dataframe[condition][['missionTime', f'Change_in_temp: {column}']]
+
+    return temp_changes
+
+
 def read_csv_and_process(df, time_string):
     df.interpolate(inplace=True)
 
@@ -59,20 +78,7 @@ def read_csv_and_process(df, time_string):
 
     plot_line_graph(df_to_plot, time_string)
 
-    # calc temp change
-    temperature_columns = [col for col in df.columns if 'temperature' in col]
-    for column in temperature_columns:
-        df[f'Change_in_temp: {column}'] = df[column].diff()
-
-    # Define a threshold for the rate of change
-    temp_threshold = 5
-
-    temp_changes = {}
-
-    for column in temperature_columns:
-        condition = df[f'Change_in_temp: {column}'].abs() > temp_threshold
-        if condition.any():
-            temp_changes[column] = df[condition][['missionTime', f'Change_in_temp: {column}']]
+    temp_changes = greater_than_5_change(df)
 
     for sensor_name, df in temp_changes.items():
         safe_name = sensor_name.replace('.', '_').replace(' ', '_')

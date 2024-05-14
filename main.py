@@ -9,13 +9,11 @@ from dataframe_processing import read_csv_and_process
 
 from sql_commands import create_db_table, get_results, get_result_by_id, insert_result
 
-from flask import Flask, request, jsonify
 import pandas as pd
 from werkzeug.utils import secure_filename
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
-
 
 app = Flask(__name__)
 
@@ -37,7 +35,6 @@ def api_get_result(result_id):
 @app.route('/api/results/add',  methods = ['POST'])
 def api_add_results():
     result = request.get_json()
-    print('result : ', result)
     return jsonify(insert_result(result))
 
 # @app.route('/api/results/update',  methods = ['PUT'])
@@ -86,7 +83,7 @@ def upload_csv():
 
         return jsonify({
             "message": "File successfully uploaded and processed",
-            "filename": filename,
+            "result_location": f'uploads/{time_string}',
             **result_id
         }), 200
 

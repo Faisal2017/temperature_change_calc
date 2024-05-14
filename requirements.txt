@@ -6,3 +6,4 @@ matplotlib
 db-sqlite3
 flask-cors
 requests
+pytest
