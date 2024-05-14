@@ -3,3 +3,5 @@ pandas
 seaborn
 scipy
 matplotlib
+db-sqlite3
+flask-cors
