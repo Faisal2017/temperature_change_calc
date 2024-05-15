@@ -1,5 +1,4 @@
 import os
-import sqlite3
 import time
 import json
 
@@ -8,9 +7,11 @@ from flight_temp_pipeline.sql_commands import create_db_table, get_result_by_id,
 
 import pandas as pd
 from werkzeug.utils import secure_filename
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory, send_file
 from flask_cors import CORS
 import requests
+import sqlite3
+
 
 app = Flask(__name__)
 
@@ -21,7 +22,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route("/")
 def summary():
-    d = {0: 'return data'}
+    d = {0: 'success'}
     return d
 
 
@@ -83,12 +84,6 @@ def upload_csv():
 
     else:
         return jsonify({"error": "Unsupported file type"}), 400
-
-
-@app.route('/files', methods=['GET'])
-def retrieve_files():
-    get_timestamp = request.args.get('time_stamp', default='*', type=str)
-    print('get_timestamp : ', get_timestamp)
 
 
 app.run(create_db_table())
