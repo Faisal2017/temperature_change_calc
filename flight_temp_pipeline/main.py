@@ -12,15 +12,17 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
 
-
 app = Flask(__name__)
-app.run(create_db_table())
 
 # define the path for uploaded files - ensure this directory exists or create it
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-CORS(app, resources={r"/*": {"origins": "*"}})
+
+@app.route("/")
+def summary():
+    d = {0: 'return data'}
+    return d
 
 
 @app.route('/api/results', methods=['GET'])
@@ -83,5 +85,16 @@ def upload_csv():
         return jsonify({"error": "Unsupported file type"}), 400
 
 
+@app.route('/files', methods=['GET'])
+def retrieve_files():
+    get_timestamp = request.args.get('time_stamp', default='*', type=str)
+    print('get_timestamp : ', get_timestamp)
+
+
+app.run(create_db_table())
+
+CORS(app, resources={r"/*": {"origins": "*"}})
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
+    # app.run(host='0.0.0.0', port=5050)
