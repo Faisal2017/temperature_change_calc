@@ -12,9 +12,11 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
 
-app = Flask(__name__)
 
-# Define the path for uploaded files (ensure this directory exists or create it)
+app = Flask(__name__)
+app.run(create_db_table())
+
+# define the path for uploaded files - ensure this directory exists or create it
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -67,6 +69,7 @@ def upload_csv():
             r = requests.post('http://127.0.0.1:5000/api/results/add', json={'time_submitted': time_string})
 
             result_id = json.loads(r.text)
+
         except sqlite3.Error as e:
             print(f'An exception occurred when sending request to SQLite: {e}')
 
@@ -81,5 +84,4 @@ def upload_csv():
 
 
 if __name__ == '__main__':
-    create_db_table()
-    app.run(debug=True)
+    app.run()

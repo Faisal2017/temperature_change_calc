@@ -54,7 +54,7 @@ def greater_than_5_change(dataframe):
 def clean_and_handle_missing_data(df):
     df.interpolate(inplace=True)
 
-    # first duplicate occurrences are dropped, can change to 'last' if required
+    # first duplicate occurrences are dropped
     df.drop_duplicates(keep='first', inplace=True)
 
     # drop any nulls still left and not providing any useful info
